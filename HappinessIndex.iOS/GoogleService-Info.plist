@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyAcPO1TQngPeHhXurnWzTAryQPyNg2KXk0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>356114674654</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.biowiseorganics.buildhappiness</string>
+	<key>PROJECT_ID</key>
+	<string>sanhabits-fa5ca</string>
+	<key>STORAGE_BUCKET</key>
+	<string>sanhabits-fa5ca.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<true/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:356114674654:ios:ef71fe2802ff74d426234f</string>
+	<key>DATABASE_URL</key>
+	<string>https://sanhabits-fa5ca-default-rtdb.firebaseio.com</string>
+	<key>CLIENT_ID</key>
+	<string>292712146644-8kepgrhuspcupqeumtdq4bscg4h97u4f.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.292712146644-8kepgrhuspcupqeumtdq4bscg4h97u4f</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>292712146644-m6k95a1cfq0n6cuaq764hhbm3gmdmm4a.apps.googleusercontent.com</string>
+</dict>
+</plist>

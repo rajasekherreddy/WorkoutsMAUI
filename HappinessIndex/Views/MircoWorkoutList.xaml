@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="HappinessIndex.Views.MircoWorkoutList"
+    BackgroundColor="{DynamicResource BackgroundColor}"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="True"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    xmlns:resource="clr-namespace:HappinessIndex.Resx"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    xmlns:behavior="clr-namespace:HappinessIndex.Behaviors"
+    xmlns:viewModel="clr-namespace:HappinessIndex.ViewModels"
+    xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+    xmlns:local="clr-namespace:HappinessIndex.Views"
+    x:Name="SelectMircoWorkoutPage">
+
+
+    <ContentPage.BindingContext>
+        <viewModel:MircoWorkoutListViewModel/>
+    </ContentPage.BindingContext>
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:BoolToStringConverterMicroWorkout x:Key="boolToStringConverterMicroWorkout" />
+            <local:BoolToStringConverterFavouriteMicroWorkout x:Key="BoolToStringConverterFavouriteMicroWorkout" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <behavior:EventToCommandBehavior
+            EventName="Appearing"
+            Command="{Binding RefreshCommand}"/>
+        <behavior:EventToCommandBehavior
+            EventName="Disappearing"
+            Command="{Binding DisappearingCommand}"/>
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+            <!-- Micro workout -->
+            <Grid Padding="{StaticResource DefaultPagePadding}" RowSpacing="7" x:Name="MicroWorkoutView" IsVisible="true">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ScrollView  Grid.Row="0" Margin="0,10" >
+                    <StackLayout BindableLayout.ItemsSource="{Binding MicroWorkoutList}"
+                        x:Name="List">
+                        <BindableLayout.ItemTemplate>
+                            <DataTemplate>
+                                <Frame HasShadow="False" BorderColor="LightGray" Padding="8" BackgroundColor="{DynamicResource BackgroundColor}">
+                                    <Grid HeightRequest="70" >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Image
+                                            Source="{Binding WorkoutIcon}"
+                                            Aspect="AspectFill"
+                                            HeightRequest="70"
+                                            WidthRequest="70"
+                                            
+                                            Margin="0,0"
+                                            Grid.Column="0"
+                                            HorizontalOptions="Start"
+                                            VerticalOptions="Center">
+                                        </Image>
+
+                                        
+
+                                        <StackLayout Grid.Column="1" Grid.ColumnSpan="2" Orientation="Vertical" VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand">
+                                            <Label Text="{Binding Name}" />
+
+                                            <Grid >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Column="0" IsVisible="False">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Duration : " />
+                                                            <Span Text="{Binding WorkoutDurationMin}" />
+                                                            <Span Text=":" />
+                                                            <Span Text="{Binding WorkoutDurationSec}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label Grid.Column="0" >
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Sets : " />
+                                                            <Span Text="{Binding NoOfSets}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+
+                                        </StackLayout>
+
+                                        <Image Source="Upload"
+                                               
+                                         HeightRequest="20"
+                                           WidthRequest="20"
+                                           Margin="5,0"
+                                           Grid.Column="3"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type viewModel:MircoWorkoutListViewModel}}, Path=ShareCommand}" CommandParameter="{Binding ID}" NumberOfTapsRequired="1" />
+                                                </Image.GestureRecognizers>
+                                        </Image>
+
+                                        <Image Source="{Binding IsLiked, Converter={StaticResource BoolToStringConverterFavouriteMicroWorkout}}"
+                                         HeightRequest="30"
+                                           WidthRequest="30"
+                                           Margin="5,0"
+                                           Grid.Column="4"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                                <Image.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type viewModel:MircoWorkoutListViewModel}}, Path=FavCommand}" CommandParameter="{Binding ID}" NumberOfTapsRequired="1" />
+                                                </Image.GestureRecognizers>
+                                        </Image>
+
+                                        
+
+                                        <Image Source="{Binding IsPlayed, Converter={StaticResource boolToStringConverterMicroWorkout}}" 
+                                         HeightRequest="50"
+                                       WidthRequest="50"
+                                       Margin="0,0,0,0"
+                                       Grid.Column="5"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type viewModel:MircoWorkoutListViewModel}}, Path=PlayTimerCommand}" CommandParameter="{Binding ID}" NumberOfTapsRequired="1" />
+                                            </Image.GestureRecognizers>
+                                        </Image>
+
+
+                                        <!--<Image  Source="youtube"
+                                                 HeightRequest="40"
+                                       WidthRequest="40"
+                                       Grid.Column="2"
+                                       IsVisible="False"
+                                       HorizontalOptions="End"
+                                       VerticalOptions="Center">
+                                            <Image.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type viewModel:MircoWorkoutListViewModel}}, Path=PlayInYoutubeCommand}" CommandParameter="{Binding ID}" NumberOfTapsRequired="1" />
+                                            </Image.GestureRecognizers>
+                                        </Image>-->
+                                    </Grid>
+                                </Frame>
+                            </DataTemplate>
+                        </BindableLayout.ItemTemplate>
+                    </StackLayout>
+                </ScrollView>
+
+                <ActivityIndicator IsVisible="{Binding IsBusy}" IsRunning="{Binding IsBusy}"
+                               VerticalOptions="Center"
+                               HorizontalOptions="Center" Grid.RowSpan="3"/>
+
+            </Grid>
+
+            <!-- Existing view -->
+            <Grid VerticalOptions="FillAndExpand" x:Name="ExistingViewGrid" IsVisible="false">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Margin="0,0,0,0" Padding="{StaticResource DefaultPagePadding}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Label Margin="0,0,0,0" Text="{x:Static resource:AppResources.TheBestThingThatHappenedToday}"
+                         FontSize="{StaticResource ContentFontSize}" FontAttributes="Bold" />
+
+                    <Frame BorderColor="{StaticResource BackgroundDarkColor}"
+                                           VerticalOptions="FillAndExpand" HeightRequest="70"
+                                           Grid.Row="1" HasShadow="False" Padding="0">
+                        <Editor VerticalOptions="FillAndExpand" Text="{Binding Highlights.BestThing}"
+                        FontSize="{StaticResource ContentFontSize}"
+                        AutoSize="TextChanges"
+                        BackgroundColor="{DynamicResource BackgroundColor}"/>
+                    </Frame>
+
+                    <Label Margin="0,10,0,0" Text="{x:Static resource:AppResources.ChallengesFacedToday}"
+                         FontSize="{StaticResource ContentFontSize}" FontAttributes="Bold"
+                         Grid.Row="2"/>
+
+                    <Frame BorderColor="{StaticResource BackgroundDarkColor}"
+                       Grid.Row="3" HasShadow="False" Padding="0">
+                        <Editor
+                        Text="{Binding Highlights.Challenge}"
+                            FontSize="{StaticResource ContentFontSize}"
+                          AutoSize="TextChanges"
+                          BackgroundColor="{DynamicResource BackgroundColor}"/>
+                    </Frame>
+
+                    <Label Margin="0,10,0,0" Text="{x:Static resource:AppResources.LessonsLearntToday}"
+                         FontSize="{StaticResource ContentFontSize}" FontAttributes="Bold"
+                         Grid.Row="4"/>
+
+                    <Frame BorderColor="{StaticResource BackgroundDarkColor}"
+                       Grid.Row="5" HasShadow="False" Padding="0">
+                        <Editor
+                          Text="{Binding Highlights.Lesson}"
+                          FontSize="{StaticResource ContentFontSize}"
+                          AutoSize="TextChanges"
+                          BackgroundColor="{DynamicResource BackgroundColor}"/>
+                    </Frame>
+
+                </Grid>
+
+                <Button Text="{x:Static resource:AppResources.Save}"
+                        Command="{Binding SaveHighlightsCommand}"
+                        Grid.Row="1"
+                        HorizontalOptions="FillAndExpand" Margin="30,0,30,0"/>
+
+            </Grid>
+
+
+            <buttons:SfSegmentedControl
+                    x:Name="selector"
+                    IsVisible="False"
+                                        Grid.Row="1"
+                                        SelectionChanged="selector_SelectionChanged"
+                                        VisibleSegmentsCount="2"
+                                        SegmentHeight="28"
+                                        Margin="20,3,20,10"
+                                        SelectionTextColor="White"
+                                        BorderColor="{DynamicResource BackgroundDarkColor}"
+                                        FontColor="Black"
+                                        CornerRadius="15">
+                <buttons:SfSegmentedControl.SelectionIndicatorSettings>
+                    <buttons:SelectionIndicatorSettings Color="{DynamicResource BackgroundDarkColor}"/>
+                </buttons:SfSegmentedControl.SelectionIndicatorSettings>
+
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Body Workouts</x:String>
+                    <x:String>Mind Workouts</x:String>
+                </x:Array>
+
+            </buttons:SfSegmentedControl>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>
+

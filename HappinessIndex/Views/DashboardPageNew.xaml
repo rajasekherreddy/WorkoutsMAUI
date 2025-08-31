@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    ios:Page.UseSafeArea="True"
+    xmlns:behavior="clr-namespace:HappinessIndex.Behaviors"
+    xmlns:border="clr-namespace:Syncfusion.XForms.Border;assembly=Syncfusion.Core.XForms"
+    BackgroundColor="{DynamicResource BackgroundColor}"
+    xmlns:resource="clr-namespace:HappinessIndex.Resx"
+    xmlns:viewModel="clr-namespace:HappinessIndex.ViewModels"
+    xmlns:local="clr-namespace:HappinessIndex.Views"
+    xmlns:converters="clr-namespace:BuildHappiness.Core.Converters;assembly=BuildHappiness.Core"
+    Title="{x:Static resource:AppResources.Dashboard}"
+    NavigationPage.HasNavigationBar="False"
+    xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+    x:Class="HappinessIndex.Views.DashboardPageNew">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="FontSize" Value="{StaticResource TitleFontSize}"/>
+                <Setter Property="TextColor" Value="{StaticResource TransparentButtonText}"/>
+            </Style>
+            <local:GreetingUserWithTimeConverter x:Key="greetingUserWithTimeConverter"/>
+            <converters:ByteArrayToImageSourceConverter x:Key="byteToImageConverter" />
+            <local:BoolToStringConverter x:Key="boolToStringConverter" />
+            <local:ImageToBoolConverter x:Key="imageToBoolConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <behavior:EventToCommandBehavior
+                EventName="Appearing"
+                Command="{Binding RefreshCommand}"/>
+    </ContentPage.Behaviors>
+
+    <ContentPage.BindingContext>
+        <viewModel:DashboardPageNewViewModel/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout>
+
+
+            <Grid
+         Margin="{StaticResource DefaultPagePadding}"
+         VerticalOptions="FillAndExpand"
+         HorizontalOptions="CenterAndExpand">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+
+
+                <xct:MediaElement
+                    Grid.Row="0"
+                    HeightRequest="200"
+                    Source="{Binding YoutubeExtracted}"
+                    x:Name="mediaSource"
+                    Aspect="AspectFill"
+                    IsLooping="True"
+                    AutoPlay="False"
+                    ShowsPlaybackControls="True"
+                    VerticalOptions="FillAndExpand" />
+
+                
+
+                <Grid
+                    Grid.Row="0"
+                    IsVisible="{Binding IsVideoNotPlaying}">
+
+                    <Grid.GestureRecognizers>
+                             <TapGestureRecognizer Tapped="PlayClicked"/>
+                    </Grid.GestureRecognizers>
+
+                    <Image Source="HomeScreenVideoBackground"
+                       HeightRequest="200"
+                       BackgroundColor="Blue"
+                       VerticalOptions="FillAndExpand"
+                        Aspect="AspectFill"
+                       HorizontalOptions="FillAndExpand">
+                    </Image>
+
+                    <Image Source="youtube"
+                   Aspect="AspectFit"
+                   HeightRequest="50"
+                   WidthRequest="50"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center">
+                    </Image>
+
+                </Grid>
+
+                <!--<Label
+                    Grid.Row="0"
+                    Style="{StaticResource PageTitle}"
+                    FontSize="23"
+                    HorizontalOptions="Start" 
+                    Text="{Binding Name, Converter={StaticResource greetingUserWithTimeConverter}}"
+                    VerticalOptions="Center"/>-->
+
+
+                <StackLayout Grid.Row="1" Orientation="Horizontal" HorizontalOptions="Start" IsVisible="false">
+                    <Label Text="{x:Static resource:AppResources.SearchForPastJournal}" FontSize="{StaticResource ContentFontSize}"
+                   FontAttributes="Bold"
+                   VerticalOptions="Center"/>
+                    <DatePicker HeightRequest="30" TextColor="{StaticResource BackgroundDarkColor}"
+                    HorizontalOptions="Center"
+                    MinimumDate="{Binding MinimumDate}"
+                    Format="MMM-dd"
+                    BackgroundColor="{DynamicResource BackgroundColor}"
+                    MaximumDate="{Binding MaximumDate}"
+                    Date="{Binding SelectedDate}"
+                    DateSelected="DatePicker_DateSelected"/>
+                </StackLayout>
+
+                
+
+
+
+                <Label Grid.Row="3" Text="{x:Static resource:AppResources.MicroWorkoutOnly}"
+                   VerticalOptions="StartAndExpand"
+                   FontSize="16"
+                   Opacity="0.8"
+                   TextColor="Black"
+                   HorizontalOptions="StartAndExpand"/>
+
+                <Grid Grid.Row="4" HeightRequest="220">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+
+                    <Grid  Grid.Column="0"
+                           Grid.ColumnSpan="1"
+                               Padding="0"
+                               Margin="0"
+                               >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="WorkoutClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder Grid.RowSpan="3"
+                             BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Body"
+                                VerticalOptions="FillAndExpand"
+                                Aspect="AspectFill"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+                        <Label Text="Workouts" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+
+
+                    <Grid  Grid.Column="1"
+                           Grid.ColumnSpan="1"
+                               
+                               HorizontalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="FavouriteClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder                                        Grid.RowSpan="3"
+                            BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Mind"
+                                Aspect="AspectFill"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+
+
+
+                        <Label Text="Favourites" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+                </Grid>
+
+                <Label Grid.Row="5" Text="{x:Static resource:AppResources.happiness}"
+                   VerticalOptions="StartAndExpand"
+                   Margin="0,20,0,0"
+                   FontSize="16"
+                   Opacity="0.8"
+                   TextColor="Black"
+                   HorizontalOptions="StartAndExpand"/>
+
+                <Grid Grid.Row="6" HeightRequest="220">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid  Grid.Column="0"
+                           Grid.ColumnSpan="1"
+                               Padding="0"
+                               >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="EnablersClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder Grid.RowSpan="3"
+                             BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Enablers"
+                                      Aspect="AspectFill"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+                        <Label Text="Enablers" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+
+
+                    <Grid  Grid.Column="1"
+                           Grid.ColumnSpan="1"
+                               Padding="0"
+                               HorizontalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="InhibitorsClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder Grid.RowSpan="3"
+                            BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Inhibitors"
+                                       Aspect="AspectFill"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+                        <Label Text="Inhibitors" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+                </Grid>
+
+                <Label Grid.Row="7" Text="{x:Static resource:AppResources.GratitudeJournalReports}"
+                   VerticalOptions="StartAndExpand"
+                   FontSize="16"
+                   Opacity="0.8"
+                   TextColor="Black"
+                   Margin="0,20,0,0"
+                   HorizontalOptions="StartAndExpand"/>
+
+                <Grid Grid.Row="8" HeightRequest="220" Margin="0,0,0,20">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+
+                    </Grid.ColumnDefinitions>
+
+                    <Grid  Grid.Column="0"
+                           Grid.ColumnSpan="1"
+                               Padding="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="JournalClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder Grid.RowSpan="3"
+                             BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Journalhome"
+                                      Aspect="AspectFill"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+                        <Label Text="Journal" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+
+
+                    <Grid  Grid.Column="1"
+                           Grid.ColumnSpan="1"
+                               Padding="0"
+                               HorizontalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="ReportsClicked"/>
+                        </Grid.GestureRecognizers>
+
+                        <border:SfBorder Grid.RowSpan="3"
+                            BackgroundColor="Transparent"  CornerRadius="15" BorderColor="Transparent" BorderThickness="2,2,1,1" Padding="0" VerticalOptions="FillAndExpand"  HorizontalOptions="CenterAndExpand" HasShadow="True" Grid.Row="0">
+
+                            <Image Source="Reports"
+                                       Aspect="AspectFill"
+                                VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                            </Image>
+                        </border:SfBorder>
+
+                        <Label Text="Reports" TextColor="White"
+                                       Grid.Row="2"
+                                       Margin="10"
+                                       FontAttributes="Bold"
+                                       FontSize="18"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="End" />
+
+                    </Grid>
+                </Grid>
+            </Grid>
+        </StackLayout>
+
+    </ScrollView>
+</ContentPage>
